@@ -1,0 +1,4 @@
+import mongoose from "mongoose";
+export const Review = mongoose.model("Review", new mongoose.Schema({ productId: { type: String, required: true, index: true }, userId: String, rating: { type: Number, min: 1, max: 5, required: true }, comment: String, approved: { type: Boolean, default: false } }, { timestamps: true }));
+export const Wishlist = mongoose.model("Wishlist", new mongoose.Schema({ userId: { type: String, required: true, unique: true }, products: [String] }, { timestamps: true }));
+export const PromoCode = mongoose.model("PromoCode", new mongoose.Schema({ code: { type: String, required: true, unique: true, uppercase: true }, discountType: { type: String, enum: ["percentage", "fixed"], required: true }, discountValue: { type: Number, required: true }, expires: Date, maxUses: Number, usedCount: { type: Number, default: 0 } }, { timestamps: true }));

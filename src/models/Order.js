@@ -1,0 +1,4 @@
+import mongoose from "mongoose";
+const OrderItemSchema = new mongoose.Schema({ productId: { type: String, required: true }, variantSku: String, name: { type: String, required: true }, price: { type: Number, required: true }, quantity: { type: Number, required: true, min: 1 } }, { _id: false });
+const OrderSchema = new mongoose.Schema({ reference: { type: String, required: true, unique: true }, userId: String, items: [OrderItemSchema], totalPrice: { type: Number, required: true }, currency: { type: String, default: "KES" }, contactInfo: { name: String, email: String, phone: String, city: String, notes: String }, status: { type: String, default: "pending", index: true }, paymentMethod: { type: String, default: "WhatsApp" }, paymentStatus: { type: String, default: "awaiting_confirmation" } }, { timestamps: true });
+export const Order = mongoose.model("Order", OrderSchema);
