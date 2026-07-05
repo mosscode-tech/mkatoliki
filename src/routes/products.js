@@ -3,10 +3,7 @@ import { Product } from "../models/Product.js";
 
 export const productsRouter = Router();
 
-/**
- * GET /api/products
- * Fetch all products with optional filters (search, category, price, sorting)
- */
+
 productsRouter.get("/", async (req, res, next) => {
   try {
     const { search, category, minPrice, maxPrice, available, sort } = req.query;
@@ -58,10 +55,7 @@ productsRouter.get("/", async (req, res, next) => {
   }
 });
 
-/**
- * GET /api/products/:slug
- * Fetch a single product by its unique slug identifier
- */
+
 productsRouter.get("/:slug", async (req, res, next) => {
   try {
     const targetProduct = await Product.findOne({ slug: req.params.slug }).lean();
@@ -76,10 +70,6 @@ productsRouter.get("/:slug", async (req, res, next) => {
   }
 });
 
-/**
- * GET /api/products/:slug/related
- * Fetch up to 4 similar items in the same category
- */
 productsRouter.get("/:slug/related", async (req, res, next) => {
   try {
     // Find the original item first

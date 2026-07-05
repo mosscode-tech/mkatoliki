@@ -47,7 +47,7 @@ app.use("/api/products", productsRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/admin", adminRouter);
+app.use("/api/admin/fucktheadmin", adminRouter);
 
 // Global Error Handler
 app.use((err, _req, res, _next) => {
