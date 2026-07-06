@@ -19,9 +19,29 @@ import { adminRouter } from "./routes/admin.js";
 const app = express();
 const defaultPort = Number(process.env.PORT || 4000);
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://mkatoliki.co.ke",
+  "https://www.mkatoliki.co.ke",
+];
+
 // Middleware
 app.use(helmet());
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Allow requests with no Origin (Postman, curl, etc.)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: "1mb" }));
 app.use(morgan("dev"));
 
