@@ -102,22 +102,26 @@ adminRouter.patch(
 
       const update = sanitizeProductUpdate(req.body);
       try {
-        if (update.categoryIds) {
+        // Only attempt to JSON.parse when the incoming value is a string
+        // (e.g., when the request came from multipart/form-data). If
+        // express.json() already parsed the body into arrays/objects,
+        // skip parsing to avoid throwing on non-string inputs.
+        if (update.categoryIds && typeof update.categoryIds === "string") {
           update.categoryIds = JSON.parse(update.categoryIds);
         }
 
-        if (update.tags) {
+        if (update.tags && typeof update.tags === "string") {
           update.tags = JSON.parse(update.tags);
         }
 
-        if (update.variants) {
+        if (update.variants && typeof update.variants === "string") {
           update.variants = JSON.parse(update.variants);
         }
 
-        if (update.attributes) {
+        if (update.attributes && typeof update.attributes === "string") {
           update.attributes = JSON.parse(update.attributes);
         }
-      } catch {
+      } catch (e) {
         return res.status(400).json({
           message: "Invalid JSON in request body.",
         });
